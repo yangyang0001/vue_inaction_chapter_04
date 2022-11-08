@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind 及class 与 style 绑定</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    
+    <p>------------------------------------v-bind 绑定 class -----------------------------------</p>
+    <!-- 对象语法 绑定 class -->
+    <div id="app1" :class="{ 'active' : isActive, 'error' : isError }">第1个div</div>
+    <!-- <div id="app2" class="static" :class="{'active' : isActive, 'error' : isError}">第2个div</div> 或者 下面的使用方式 -->
+    <div id="app2" class="static" :class="classes">第2个div</div>
+    
+    <!-- 数组语法 绑定 class -->
+    <div id="app3" :class="[activeCls, errorCls]">第3个div</div>
+    <div id="app4" :class="[{active : isActive}, errorCls, 'mine-div']">第4个div</div>
+    <div id="app5" :class="classes">第5个div</div>
+    
+    <p>------------------------------------v-bind 绑定 style -----------------------------------</p>
+    <div id="app6" :style="{'color' : color, 'font-size': fontSize + 'px'}">你好</div>
+    <div id="app7" :style="styleA">你好</div>
+
+
+
+    <script>
+        const app1 = new Vue({
+            el: '#app1',
+            data: {
+                isActive: true,
+                isError: true
+            },
+            computed: {},
+            methods: {}
+        });
+        const app2 = new Vue({
+            el: '#app2',
+            data: {
+                isActive: true,
+                isError: false
+            },
+            computed: {
+                classes: function() {
+                    return {
+                        'active' : this.isActive, 'error' : this.isError
+                    }
+                }
+            }
+        });
+        const app3 = new Vue({
+            el: '#app3',
+            data: {
+                activeCls: 'active',
+                errorCls: 'error'
+            }
+        });
+        const app4 = new Vue({
+            el: '#app4',
+            data: {
+                isActive: true,
+                activeCls: 'active',
+                errorCls: 'error'
+            },
+            computed: {
+                classes: function() {
+                    // 对象数组组合使用!
+                    return [];
+                }
+            }
+        });
+        const app5 = new Vue({
+            el: '#app5',
+            data: {
+                isActive: true,
+                isError: true,
+                mineCls: 'mine-class'
+            },
+            computed: {
+                classes : function() {
+                    return ['static', {'active' : this.isActive}, {'error' : this.isError}, this.mineCls]
+                }
+            }
+        });
+
+        const app6 = new Vue({
+            el: '#app6',
+            data: {
+                color: 'red',
+                fontSize: 15
+            }
+        });
+        const app7 = new Vue({
+            el: '#app7',
+            data: {
+                styleA: {
+                    color : 'blue',
+                    'font-size': 25 + 'px'
+                }
+            },
+        });
+
+    </script>
+
+    
+</body>
+</html>
